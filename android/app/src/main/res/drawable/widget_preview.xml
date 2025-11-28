@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 배경 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#F5F5F5" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+    
+    <!-- 상단 제목 영역 -->
+    <item
+        android:top="16dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:height="24dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#2196F3" />
+        </shape>
+    </item>
+    
+    <!-- 통계 영역 배경 -->
+    <item
+        android:top="56dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:height="40dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#E3F2FD" />
+        </shape>
+    </item>
+    
+    <!-- 통계 숫자들 -->
+    <item
+        android:top="60dp"
+        android:left="60dp"
+        android:width="24dp"
+        android:height="24dp">
+        <shape android:shape="oval">
+            <solid android:color="#2196F3" />
+        </shape>
+    </item>
+    <item
+        android:top="60dp"
+        android:left="140dp"
+        android:width="24dp"
+        android:height="24dp">
+        <shape android:shape="oval">
+            <solid android:color="#2196F3" />
+        </shape>
+    </item>
+    <item
+        android:top="60dp"
+        android:right="60dp"
+        android:width="24dp"
+        android:height="24dp">
+        <shape android:shape="oval">
+            <solid android:color="#2196F3" />
+        </shape>
+    </item>
+    
+    <!-- 구분선 -->
+    <item
+        android:top="112dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:height="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#E0E0E0" />
+        </shape>
+    </item>
+    
+    <!-- 최근 게시물 영역 -->
+    <item
+        android:top="128dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:height="8dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#666666" />
+        </shape>
+    </item>
+    <item
+        android:top="144dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:height="4dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#000000" />
+        </shape>
+    </item>
+</layer-list>

@@ -1,0 +1,169 @@
+{
+  "@@locale": "en",
+  "appTitle": "Community App",
+  "login": "Login",
+  "welcomeMessage": "Welcome to\nour community!",
+  "loginInProgress": "Login in progress...\nPlease complete login in the browser.",
+  "googleLogin": "Login with Google",
+  "appleLogin": "Login with Apple",
+  "kakaoLogin": "Login with Kakao",
+  "naverLogin": "Login with Naver",
+  "profile": "Profile",
+  "profileEdit": "Edit Profile",
+  "profileView": "View Profile",
+  "profileSaved": "Profile saved",
+  "edit": "Edit",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "logout": "Logout",
+  "logoutConfirm": "Are you sure you want to logout?",
+  "post": "Post",
+  "postCreate": "Create Post",
+  "postEdit": "Edit Post",
+  "postDetail": "Post Detail",
+  "postCreated": "Post created",
+  "postUpdated": "Post updated",
+  "postDeleteConfirm": "Are you sure you want to delete?",
+  "postDeleteTitle": "Delete Confirmation",
+  "postListTitle": "Lion SNS",
+  "postEmpty": "No posts",
+  "postEmptyHint": "Create your first post!",
+  "postLoading": "Loading posts...",
+  "postError": "An error occurred",
+  "retry": "Retry",
+  "comment": "Comment",
+  "commentDelete": "Delete Comment",
+  "commentDeleteConfirm": "Are you sure you want to delete this comment?",
+  "commentEmpty": "No comments",
+  "commentInputHint": "Enter a comment...",
+  "commentInputError": "Please enter a comment",
+  "commentLoadError": "Failed to load comments: {message}",
+  "@commentLoadError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "like": "Like",
+  "likedPosts": "Liked Posts",
+  "search": "Search",
+  "searchHint": "Enter search term",
+  "searchNoResults": "No search results",
+  "searchError": "An error occurred while searching",
+  "searchLoading": "Searching...",
+  "tabPost": "Post",
+  "tabComment": "Comment",
+  "tabUser": "User",
+  "likedPostsEmpty": "No liked posts",
+  "likedPostsEmptyHint": "Like posts you find interesting!",
+  "likedPostsLoading": "Loading liked posts...",
+  "title": "Title",
+  "titleHint": "Enter title",
+  "titleError": "Please enter a title",
+  "content": "Content",
+  "contentHint": "Enter content",
+  "contentError": "Please enter content",
+  "image": "Image",
+  "imageAttach": "Attach Image",
+  "imageSelect": "Select Image",
+  "imageSelectGallery": "Choose from Gallery",
+  "imageSelectCamera": "Take Photo",
+  "imageSelectError": "Image selection failed: {error}",
+  "@imageSelectError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "create": "Create",
+  "update": "Update",
+  "loginRequired": "Login required",
+  "dataLoadError": "Unable to load data",
+  "profileLoadError": "Failed to load profile",
+  "profileNotFound": "Profile not found",
+  "goBack": "Go Back",
+  "close": "Close",
+  "name": "Name",
+  "email": "Email",
+  "loginMethod": "Login Method",
+  "follower": "Follower",
+  "following": "Following",
+  "follow": "Follow",
+  "unfollow": "Unfollow",
+  "followersEmpty": "No followers",
+  "followingEmpty": "Not following anyone",
+  "loading": "Loading...",
+  "error": "Error",
+  "errorOccurred": "An error occurred: {error}",
+  "@errorOccurred": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "pageNotFound": "Page not found: {uri}",
+  "@pageNotFound": {
+    "placeholders": {
+      "uri": {
+        "type": "String"
+      }
+    }
+  },
+  "anonymous": "Anonymous",
+  "justNow": "Just now",
+  "minutesAgo": "{count} minutes ago",
+  "@minutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count} hours ago",
+  "@hoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count} days ago",
+  "@daysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dateFormat": "{year}/{month}/{day}",
+  "@dateFormat": {
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "nickname": "Nickname",
+  "nicknameHint": "Enter nickname",
+  "nicknameError": "Please enter a nickname",
+  "nicknameErrorEmpty": "Please enter a nickname",
+  "nicknameErrorLength": "Nickname must be 20 characters or less",
+  "user": "User",
+  "titleAndContentRequired": "Please enter title and content",
+  "postNotFound": "Post not found",
+  "exitMessage": "Press back again to exit",
+  "@exitMessage": {
+    "description": "Message shown when back button is pressed once to exit app"
+  }
+}
+
