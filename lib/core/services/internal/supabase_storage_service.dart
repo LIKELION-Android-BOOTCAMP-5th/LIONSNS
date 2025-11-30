@@ -220,6 +220,37 @@ class SupabaseStorageService implements StorageService {
     }
   }
 
+  @override
+  String getPostThumbnailUrl(String imageUrl, {int width = 400, int height = 300}) {
+    try {
+      // Supabase Storage URL인지 확인
+      final uri = Uri.parse(imageUrl);
+      
+      // 이미 transform 파라미터가 있으면 원본 URL 반환
+      if (uri.queryParameters.containsKey('width') || 
+          uri.queryParameters.containsKey('transform')) {
+        return imageUrl;
+      }
+      
+      // Supabase Storage URL에 transform 쿼리 파라미터 추가
+      // Supabase Storage 이미지 변환: ?width=400&height=300&resize=cover
+      final thumbnailUrl = uri.replace(
+        queryParameters: {
+          ...uri.queryParameters,
+          'width': width.toString(),
+          'height': height.toString(),
+          'resize': 'cover',
+        },
+      ).toString();
+
+      return thumbnailUrl;
+    } catch (e) {
+      debugPrint('[SupabaseStorageService] 썸네일 URL 생성 실패: $e');
+      // 실패 시 원본 URL 반환
+      return imageUrl;
+    }
+  }
+
   static String _getContentType(String extension) {
     switch (extension.toLowerCase()) {
       case 'jpg':

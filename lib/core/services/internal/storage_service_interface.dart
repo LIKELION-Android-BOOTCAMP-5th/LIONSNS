@@ -40,5 +40,14 @@ abstract class StorageService {
   /// 
   /// Returns 선택된 이미지 파일
   Future<File?> pickImage(ImageSource source);
+
+  /// 게시글 이미지 썸네일 URL 생성
+  /// 
+  /// [imageUrl] 원본 이미지 URL
+  /// [width] 썸네일 너비 (기본값: 400)
+  /// [height] 썸네일 높이 (기본값: 300)
+  /// 
+  /// Returns 썸네일 이미지 URL
+  String getPostThumbnailUrl(String imageUrl, {int width = 400, int height = 300});
 }
 

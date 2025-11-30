@@ -69,12 +69,25 @@ class SupabasePostDatasource {
           debugPrint('댓글 수 조회 실패 (postId: ${data['id']}): $e');
         }
 
-        return Post.fromJson(data).copyWith(
+        final post = Post.fromJson(data);
+        
+        // 썸네일 URL 생성 (이미지가 있는 경우)
+        String? thumbnailUrl;
+        if (post.imageUrl != null && post.imageUrl!.isNotEmpty) {
+          thumbnailUrl = _storageService.getPostThumbnailUrl(
+            post.imageUrl!,
+            width: 800,
+            height: 400,
+          );
+        }
+        
+        return post.copyWith(
           authorName: authorName,
           authorImageUrl: authorImageUrl,
           likesCount: likes.length,
           commentsCount: commentsCount,
           isLiked: isLiked,
+          thumbnailUrl: thumbnailUrl,
         );
       }));
 
@@ -175,26 +188,48 @@ class SupabasePostDatasource {
         final comments = commentsResponse as List;
 
         // Post.fromJson은 'author_id' 컬럼을 사용 (이미 post.g.dart에서 매핑됨)
-        final post = Post.fromJson(data).copyWith(
+        final post = Post.fromJson(data);
+        
+        // 썸네일 URL 생성 (이미지가 있는 경우)
+        String? thumbnailUrl;
+        if (post.imageUrl != null && post.imageUrl!.isNotEmpty) {
+          thumbnailUrl = _storageService.getPostThumbnailUrl(
+            post.imageUrl!,
+            width: 800,
+            height: 400,
+          );
+        }
+        
+        return Success<Post>(post.copyWith(
           authorName: authorName,
           authorImageUrl: authorImageUrl,
           likesCount: likes.length,
           commentsCount: comments.length,
           isLiked: isLiked,
-        );
-
-        return Success<Post>(post);
+          thumbnailUrl: thumbnailUrl,
+        ));
       } catch (e) {
         // comments 테이블이 없을 경우
-        final post = Post.fromJson(data).copyWith(
+        final post = Post.fromJson(data);
+        
+        // 썸네일 URL 생성 (이미지가 있는 경우)
+        String? thumbnailUrl;
+        if (post.imageUrl != null && post.imageUrl!.isNotEmpty) {
+          thumbnailUrl = _storageService.getPostThumbnailUrl(
+            post.imageUrl!,
+            width: 800,
+            height: 400,
+          );
+        }
+        
+        return Success<Post>(post.copyWith(
           authorName: authorName,
           authorImageUrl: authorImageUrl,
           likesCount: likes.length,
           commentsCount: 0,
           isLiked: isLiked,
-        );
-
-        return Success<Post>(post);
+          thumbnailUrl: thumbnailUrl,
+        ));
       }
     } catch (e) {
       debugPrint('게시글 조회 오류: $e');
@@ -278,15 +313,26 @@ class SupabasePostDatasource {
       }
 
       // Post.fromJson은 'author_id' 컬럼을 사용 (이미 post.g.dart에서 매핑됨)
-      final createdPost = Post.fromJson(data).copyWith(
+      final createdPost = Post.fromJson(data);
+      
+      // 썸네일 URL 생성 (이미지가 있는 경우)
+      String? thumbnailUrl;
+      if (createdPost.imageUrl != null && createdPost.imageUrl!.isNotEmpty) {
+        thumbnailUrl = _storageService.getPostThumbnailUrl(
+          createdPost.imageUrl!,
+          width: 800,
+          height: 400,
+        );
+      }
+
+      return Success<Post>(createdPost.copyWith(
         authorName: authorName,
         authorImageUrl: authorImageUrl,
         likesCount: 0,
         commentsCount: 0,
         isLiked: false,
-      );
-
-      return Success<Post>(createdPost);
+        thumbnailUrl: thumbnailUrl,
+      ));
     } catch (e, stackTrace) {
       debugPrint('게시글 생성 오류: $e');
       return Failure<Post>('게시글 생성에 실패했습니다: $e');
@@ -433,26 +479,48 @@ class SupabasePostDatasource {
             .eq('post_id', post.id);
         final comments = commentsResponse as List;
 
-        final updatedPost = Post.fromJson(data).copyWith(
+        final updatedPost = Post.fromJson(data);
+        
+        // 썸네일 URL 생성 (이미지가 있는 경우)
+        String? thumbnailUrl;
+        if (updatedPost.imageUrl != null && updatedPost.imageUrl!.isNotEmpty) {
+          thumbnailUrl = _storageService.getPostThumbnailUrl(
+            updatedPost.imageUrl!,
+            width: 800,
+            height: 400,
+          );
+        }
+        
+        return Success<Post>(updatedPost.copyWith(
           authorName: authorName,
           authorImageUrl: authorImageUrl,
           likesCount: likes.length,
           commentsCount: comments.length,
           isLiked: isLiked,
-        );
-
-        return Success<Post>(updatedPost);
+          thumbnailUrl: thumbnailUrl,
+        ));
       } catch (e) {
         // comments 테이블이 없을 경우
-        final updatedPost = Post.fromJson(data).copyWith(
+        final updatedPost = Post.fromJson(data);
+        
+        // 썸네일 URL 생성 (이미지가 있는 경우)
+        String? thumbnailUrl;
+        if (updatedPost.imageUrl != null && updatedPost.imageUrl!.isNotEmpty) {
+          thumbnailUrl = _storageService.getPostThumbnailUrl(
+            updatedPost.imageUrl!,
+            width: 800,
+            height: 400,
+          );
+        }
+        
+        return Success<Post>(updatedPost.copyWith(
           authorName: authorName,
           authorImageUrl: authorImageUrl,
           likesCount: likes.length,
           commentsCount: 0,
           isLiked: isLiked,
-        );
-
-        return Success<Post>(updatedPost);
+          thumbnailUrl: thumbnailUrl,
+        ));
       }
     } catch (e) {
       debugPrint('게시글 수정 오류: $e');

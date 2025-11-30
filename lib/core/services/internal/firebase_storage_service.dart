@@ -215,5 +215,11 @@ class FirebaseStorageService implements StorageService {
         return 'image/jpeg';
     }
   }
+
+  @override
+  String getPostThumbnailUrl(String imageUrl, {int width = 400, int height = 300}) {
+    // TODO: implement getPostThumbnailUrl
+    throw UnimplementedError();
+  }
 }
 

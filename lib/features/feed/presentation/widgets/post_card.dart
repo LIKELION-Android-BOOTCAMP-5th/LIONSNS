@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lionsns/l10n/app_localizations.dart';
 import 'package:lionsns/core/utils/result.dart';
 import 'package:lionsns/features/feed/models/post.dart';
@@ -101,62 +102,46 @@ class PostCard extends ConsumerWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              // 이미지 표시
-              if (post.imageUrl != null && post.imageUrl!.isNotEmpty) ...[
+              // 이미지 표시 (썸네일 + 캐싱)
+              if (post.thumbnailUrl != null && post.thumbnailUrl!.isNotEmpty) ...[
                 const SizedBox(height: 12),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    post.imageUrl!,
+                  child: CachedNetworkImage(
+                    imageUrl: post.thumbnailUrl!,
                     width: double.infinity,
                     height: 200,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        height: 200,
-                        color: Colors.grey[200],
-                        child: const Center(
-                          child: Icon(Icons.broken_image, size: 48, color: Colors.grey),
-                        ),
-                      );
-                    },
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Container(
-                        height: 200,
-                        color: Colors.grey[200],
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            // 디폴트 이미지 아이콘
-                            Center(
-                              child: Icon(
-                                Icons.image_outlined,
-                                size: 48,
-                                color: Colors.grey[400],
-                              ),
+                    placeholder: (context, url) => Container(
+                      height: 200,
+                      color: Colors.grey[200],
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          // 디폴트 이미지 아이콘
+                          Center(
+                            child: Icon(
+                              Icons.image_outlined,
+                              size: 48,
+                              color: Colors.grey[400],
                             ),
-                            // 로딩 인디케이터
-                            Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                      if (wasSynchronouslyLoaded) return child;
-                      return AnimatedOpacity(
-                        opacity: frame == null ? 0 : 1,
-                        duration: const Duration(milliseconds: 200),
-                        child: child,
-                      );
-                    },
+                          ),
+                          // 로딩 인디케이터
+                          const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      height: 200,
+                      color: Colors.grey[200],
+                      child: const Center(
+                        child: Icon(Icons.broken_image, size: 48, color: Colors.grey),
+                      ),
+                    ),
+                    fadeInDuration: const Duration(milliseconds: 200),
+                    fadeOutDuration: const Duration(milliseconds: 100),
                   ),
                 ),
               ],

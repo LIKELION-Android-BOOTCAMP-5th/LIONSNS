@@ -12,6 +12,7 @@ class Post {
   final String authorId;
   @JsonKey(name: 'image_url')
   final String? imageUrl;
+  final String? thumbnailUrl; // 리스트 표시용 썸네일 URL (JSON 직렬화 제외)
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @JsonKey(name: 'updated_at')
@@ -30,6 +31,7 @@ class Post {
     required this.content,
     required this.authorId,
     this.imageUrl,
+    this.thumbnailUrl,
     required this.createdAt,
     required this.updatedAt,
     this.authorName,
@@ -51,6 +53,7 @@ class Post {
     required String content,
     required String authorId,
     String? imageUrl,
+    String? thumbnailUrl,
   }) {
     final now = DateTime.now();
     return Post(
@@ -59,6 +62,7 @@ class Post {
       content: content,
       authorId: authorId,
       imageUrl: imageUrl,
+      thumbnailUrl: thumbnailUrl,
       createdAt: now,
       updatedAt: now,
     );
@@ -71,6 +75,7 @@ class Post {
     String? content,
     String? authorId,
     String? imageUrl,
+    String? thumbnailUrl,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? authorName,
@@ -85,6 +90,7 @@ class Post {
       content: content ?? this.content,
       authorId: authorId ?? this.authorId,
       imageUrl: imageUrl ?? this.imageUrl,
+      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       authorName: authorName ?? this.authorName,
