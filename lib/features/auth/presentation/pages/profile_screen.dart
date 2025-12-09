@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lionsns/l10n/app_localizations.dart';
 import 'package:lionsns/config/router.dart';
+import 'package:lionsns/core/widgets/common_app_bar.dart';
 import 'package:lionsns/features/auth/models/user.dart';
 import 'package:lionsns/core/utils/result.dart';
 import '../providers/providers.dart';
 import '../viewmodels/follow_viewmodel.dart';
+import 'package:lionsns/features/chat/presentation/providers/providers.dart' as chat_providers;
 import '../../data/datasources/supabase_profile_datasource.dart';
 
 /// 프로필 화면
@@ -43,9 +45,10 @@ class ProfileScreen extends ConsumerWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
+        appBar: CommonAppBar(
           // 다국어: 프로필 화면 제목
           title: Text(l10n.profile),
+          showChatIcon: false, // 프로필 화면에서는 채팅 아이콘 숨김
           actions: [
             IconButton(
               icon: const Icon(Icons.edit),
@@ -103,18 +106,10 @@ class ProfileScreen extends ConsumerWidget {
     final profileDatasource = SupabaseProfileDatasource();
     final profileFuture = profileDatasource.getProfile(targetUserId);
     final followState = ref.watch(followViewModelProvider(targetUserId));
-    
-    // 현재 사용자 정보 가져오기
-    final authResult = ref.watch(authViewModelProvider);
-    final currentUser = authResult.when(
-      success: (user) => user,
-      failure: (_, __) => null,
-      pending: (_) => null,
-    );
-    final isCurrentUser = currentUser?.id == targetUserId;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CommonAppBar(
+        showChatIcon: false, // 프로필 화면에서는 채팅 아이콘 숨김
         // 다국어: 프로필 화면 제목
         title: Text(l10n.profile),
       ),
@@ -324,6 +319,20 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
           ),
+          const SizedBox(height: 12),
+          // 채팅하기 버튼 (자기 자신이 아닐 때만)
+          // canFollow가 true이면 currentUserId는 null이 아님 (canFollow = !isCurrentUser && currentUserId != null)
+          if (canFollow)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: OutlinedButton.icon(
+                // ignore: unnecessary_null_comparison
+                // canFollow가 true이면 currentUserId는 null이 아님
+                onPressed: () => _navigateToChat(context, ref, currentUserId!, user.id),
+                icon: const Icon(Icons.chat),
+                label: const Text('채팅하기'),
+              ),
+            ),
       ],
     );
   }
@@ -359,6 +368,50 @@ class ProfileScreen extends ConsumerWidget {
         _buildFollowStats(context, ref, user.id, followState),
 
         const SizedBox(height: 24),
+
+        // 채팅방 목록으로 이동
+        if (isCurrentUser)
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.chat, color: Theme.of(context).primaryColor),
+              title: const Text(
+                '채팅방',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: const Text('내가 참여중인 채팅방 목록'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                context.push('/chat');
+              },
+            ),
+          ),
+
+        if (isCurrentUser) const SizedBox(height: 16),
+
+        // 좋아요한 게시글 목록으로 이동
+        if (isCurrentUser)
+          Card(
+            child: ListTile(
+              leading: Icon(Icons.favorite, color: Theme.of(context).primaryColor),
+              title: const Text(
+                '좋아요',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: const Text('내가 좋아요한 게시글 목록'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                context.push(AppRoutes.likedPosts);
+              },
+            ),
+          ),
+
+        if (isCurrentUser) const SizedBox(height: 16),
 
         // 사용자 정보
         // 다국어: 이름 정보 카드
@@ -402,13 +455,61 @@ class ProfileScreen extends ConsumerWidget {
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
-          ),
       ],
     );
+  }
+
+  /// 채팅방으로 이동
+  Future<void> _navigateToChat(
+    BuildContext context,
+    WidgetRef ref,
+    String currentUserId,
+    String otherUserId,
+  ) async {
+    try {
+      // 로딩 표시
+      if (!context.mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      // 채팅방 생성 또는 조회
+      final datasource = ref.read(chat_providers.chatDatasourceProvider);
+      final result = await datasource.getOrCreateChatRoom(
+        user1Id: currentUserId,
+        user2Id: otherUserId,
+      );
+
+      if (!context.mounted) return;
+      Navigator.pop(context); // 로딩 다이얼로그 닫기
+
+      result.when(
+        success: (chatRoom) {
+          // 채팅방으로 이동
+          context.push('/chat/${chatRoom.id}');
+        },
+        failure: (message, _) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message)),
+          );
+        },
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      Navigator.pop(context); // 로딩 다이얼로그 닫기
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('채팅방을 열 수 없습니다: $e')),
+      );
+    }
   }
 
   Widget _buildInfoCard(

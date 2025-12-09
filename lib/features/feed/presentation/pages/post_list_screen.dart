@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lionsns/l10n/app_localizations.dart';
 import 'package:lionsns/config/router.dart';
 import 'package:lionsns/core/utils/result.dart';
+import 'package:lionsns/core/widgets/common_app_bar.dart';
 import 'package:lionsns/features/feed/presentation/providers/providers.dart';
 import 'package:lionsns/features/auth/presentation/providers/providers.dart';
 import '../widgets/post_card.dart';
@@ -19,10 +20,9 @@ class PostListScreen extends ConsumerWidget {
     final postsResult = ref.watch(postListProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CommonAppBar(
         // 다국어: 게시글 리스트 화면 제목
         title: Text(l10n.postListTitle),
-        elevation: 1,
         actions: [
           IconButton(
             icon: const Icon(Icons.favorite),

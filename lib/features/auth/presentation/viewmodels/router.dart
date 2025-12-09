@@ -12,6 +12,8 @@ import 'package:lionsns/features/auth/presentation/providers/providers.dart';
 import 'package:lionsns/features/feed/presentation/pages/post_form_screen.dart';
 import 'package:lionsns/features/feed/presentation/pages/post_detail_screen.dart';
 import 'package:lionsns/features/feed/presentation/pages/liked_posts_screen.dart';
+import 'package:lionsns/features/chat/presentation/pages/chat_room_list_screen.dart';
+import 'package:lionsns/features/chat/presentation/pages/chat_screen.dart';
 import 'package:lionsns/presentation/pages/main_navigation_screen.dart';
 
 
@@ -23,8 +25,10 @@ class AppRoutes {
   static const String postCreate = '/post/create';
   static const String likedPosts = '/liked-posts';
   static const String notificationSettings = '/settings/notifications';
+  static const String chatRoomList = '/chat';
   static String postDetail(String id) => '/post/$id';
   static String userProfile(String userId) => '/user/$userId';
+  static String chat(String chatRoomId) => '/chat/$chatRoomId';
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -139,6 +143,21 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final userId = state.pathParameters['userId']!;
           return ProfileScreen(userId: userId);
+        },
+      ),
+      // 채팅방 목록
+      GoRoute(
+        path: AppRoutes.chatRoomList,
+        name: 'chatRoomList',
+        builder: (context, state) => const ChatRoomListScreen(),
+      ),
+      // 채팅 화면
+      GoRoute(
+        path: '/chat/:chatRoomId',
+        name: 'chat',
+        builder: (context, state) {
+          final chatRoomId = state.pathParameters['chatRoomId']!;
+          return ChatScreen(chatRoomId: chatRoomId);
         },
       ),
     ],

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lionsns/l10n/app_localizations.dart';
 import 'package:lionsns/config/router.dart';
 import 'package:lionsns/core/utils/result.dart';
+import 'package:lionsns/core/widgets/common_app_bar.dart';
 import 'package:lionsns/features/search/data/datasources/supabase_search_datasource.dart';
 import 'package:lionsns/features/search/presentation/providers/providers.dart';
 import 'package:lionsns/features/feed/presentation/widgets/post_card.dart';
@@ -54,10 +55,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> with SingleTickerPr
     final searchResult = ref.watch(searchProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CommonAppBar(
         // 다국어: 검색 화면 제목
         title: Text(l10n.search),
-        elevation: 1,
         bottom: TabBar(
           controller: _tabController,
           tabs: [

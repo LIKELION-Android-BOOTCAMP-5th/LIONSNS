@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lionsns/l10n/app_localizations.dart';
 import 'package:lionsns/config/router.dart';
+import 'package:lionsns/core/widgets/common_app_bar.dart';
 import 'package:lionsns/features/feed/models/post.dart';
 import 'package:lionsns/core/utils/result.dart';
 import '../providers/providers.dart';
@@ -116,7 +117,7 @@ class _PostDetailScreenState extends ConsumerState<PostDetailScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CommonAppBar(
         // 다국어: 게시글 상세 화면 제목
         title: Text(l10n.postDetail),
         actions: [

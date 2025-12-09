@@ -12,6 +12,8 @@ import 'package:lionsns/features/auth/presentation/providers/providers.dart';
 import 'package:lionsns/features/feed/presentation/pages/post_form_screen.dart';
 import 'package:lionsns/features/feed/presentation/pages/post_detail_screen.dart';
 import 'package:lionsns/features/feed/presentation/pages/liked_posts_screen.dart';
+import 'package:lionsns/features/chat/presentation/pages/chat_room_list_screen.dart';
+import 'package:lionsns/features/chat/presentation/pages/chat_screen.dart';
 import 'package:lionsns/presentation/pages/main_navigation_screen.dart';
 
 
@@ -127,6 +129,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final userId = state.pathParameters['userId']!;
           return ProfileScreen(userId: userId);
+        },
+      ),
+      GoRoute(
+        path: '/chat',
+        name: 'chatRoomList',
+        builder: (context, state) => const ChatRoomListScreen(),
+      ),
+      GoRoute(
+        path: '/chat/:chatRoomId',
+        name: 'chat',
+        builder: (context, state) {
+          final chatRoomId = state.pathParameters['chatRoomId']!;
+          return ChatScreen(chatRoomId: chatRoomId);
         },
       ),
     ],
